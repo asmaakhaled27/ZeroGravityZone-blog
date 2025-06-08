@@ -1,0 +1,31 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "Exploring the Mysteries of Black Holes",
+      "content": "Black holes are among the most fascinating and mysterious objects in the universe. These cosmic entities have gravitational pulls so strong that not even light can escape from them. They form from the remnants of massive stars that have exhausted their nuclear fuel and undergone gravitational collapse.\n\nThe concept of black holes was first proposed by physicist John Michell in 1783, but it wasn't until the 20th century that the idea gained traction with Einstein's theory of general relativity. Today, black holes are a central topic in astrophysics and have captured the public imagination, inspiring countless books, movies, and scientific research.\n\nOne of the most intriguing aspects of black holes is their event horizon, the boundary beyond which nothing can return. Once an object crosses this threshold, it is inevitably pulled toward the singularity at the black hole's center, where the laws of physics as we know them break down.\n\nRecent advancements in technology have allowed scientists to capture images of black holes, such as the historic image of the supermassive black hole at the center of the galaxy M87. This achievement has opened new avenues for understanding these enigmatic objects and the role they play in the cosmos.\n\nBlack holes also have a profound impact on their surroundings. They can influence the formation and evolution of galaxies, and their intense gravitational fields can produce powerful jets of radiation and particles that extend for thousands of light-years.\n\nAs we continue to explore the mysteries of black holes, we gain deeper insights into the fundamental nature of space, time, and the universe itself. The study of black holes not only expands our knowledge of the cosmos but also challenges our understanding of the laws that govern it.",
+      "image": "https://images.unsplash.com/photo-1652195019227-4f3d3f599959?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "author": "asmaaKahaled",
+      "userId": 1,
+      "createdAt": "2025-06-04T10:16:02.325Z",
+      "isDeleted": false,
+      "comments": [
+        {
+          "id": "1748433965243",
+          "content": "This is incredibly fascinating!",
+          "userId": "2",
+          "userName": "asmaaKahaled",
+          "createdAt": "2025-06-5T12:06:05.243Z"
+        }
+      ]
+    }
+  ],
+  "profile": [
+    {
+      "email": "asmaaKahaled@gmail.com",
+      "password": "123456",
+      "name": "Asmaa Khaled",
+      "id": 1
+    }
+  ]
+}
