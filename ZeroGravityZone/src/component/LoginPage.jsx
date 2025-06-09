@@ -10,6 +10,7 @@ import {
   Typography,
   Paper,
 } from "@mui/material";
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -24,8 +25,8 @@ const LoginPage = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Typography variant="h2" component="h2" align="center" sx={{ mt: 4 }}>
-        Login Page
+      <Typography variant="h5" component="h5" align="center" sx={{ mt: 4 }}>
+        <RocketLaunchIcon/> ZeroGravityZone  <RocketLaunchIcon/>
       </Typography>
 
       <Paper elevation={3} sx={{ mt: 8, p: 4 }}>
@@ -36,8 +37,8 @@ const LoginPage = () => {
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h5">
-            Login
+          <Typography component="h6" variant="h6" align="center" sx={{ mt: 2 }}>
+            welcome back to ZeroGravityZone , space waiting for you
           </Typography>
           <Box
             component="form"
