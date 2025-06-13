@@ -32,7 +32,7 @@ const SignupPage = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/profile", {
+      const response = await axios.post("http://localhost:3000/profile${id}", {
         name,
         email,
         password,
@@ -44,7 +44,7 @@ const SignupPage = () => {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
 
-      navigate("/profile");
+        navigate(`/profile/${response.data[0].id}`);
     } catch (err) {
       console.error("Error during signup:", err);
       setError("Something went wrong. Please try again.");
@@ -148,6 +148,6 @@ const SignupPage = () => {
     </Container>
   );
 };
-
+  
 export default SignupPage;
 
