@@ -15,18 +15,22 @@ function HomePage() {
   const handleClose = () => {
     setOpen(false);
   };
-
+ const [posts, setPosts] = useState([]);
   return (
+   
     <Box>
-      <NavBar />
-      <Posts />
+      {/* <NavBar /> */}
+      
+      <Posts posts={posts} />
       <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
         <AddBoxIcon
           sx={{ color: "primary", fontSize: 100, cursor: "pointer" }}
           onClick={handleOpen}
         />
       </Box>
-      <PostFormDialog open={open} handleClose={handleClose} />
+      <PostFormDialog  open={open} 
+      handleClose={handleClose}
+      setPosts={setPosts} />
     </Box>
   );
 }
