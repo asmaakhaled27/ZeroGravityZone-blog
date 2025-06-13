@@ -11,6 +11,8 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import About from './components/About.jsx';
 import ProfilePage from './components/ProfilePage.jsx';
 import HeroSection from './components/HeroSection.jsx';
+// import PostForm from './components/PostForm.jsx';
+import PostFormDialog from './components/PostFormDialog.jsx';
 // import { jsx as _jsx } from 'react/jsx-runtime';
 
 // import axios from 'axios';
@@ -27,6 +29,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
          <Route path="/profile/:id" element={<ProfilePage />} />
+         <Route path="/PostFormDialog" element={<PostFormDialog />} />
       </Routes>
        <Routes>
       <Route path="http://localhost:3000/profile/:Id" element={<ProfilePage />} />
