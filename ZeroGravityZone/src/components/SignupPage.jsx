@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Button,
@@ -9,145 +9,225 @@ import {
   TextField,
   Typography,
   Paper,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const SignupPage = () => {
-  const [name, setName] = useState(""); // 🔹 New state for name
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [remember, setRemember] = useState(false);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // Validation Schema
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required("Full name is required")
+      .min(3, "Name must be at least 3 characters"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+    password: Yup.string()
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+    agreeTerms: Yup.boolean()
+      .oneOf([true], "You must accept the terms and conditions")
+  });
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      agreeTerms: false,
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const response = await axios.post("http://localhost:3000/profile${id}", {
-        name,
-        email,
-        password,
-      });
+      try {
+        // Check if email exists
+        const checkResponse = await axios.get("http://localhost:3000/profile", {
+          params: { email: values.email },
+        });
 
-      console.log("User registered:", response.data);
+        if (checkResponse.data.length > 0) {
+          throw new Error("Email already exists");
+        }
 
-      if (remember) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        // Create new user
+        const newUser = {
+          name: values.name,
+          email: values.email,
+          password: values.password, // Note: Hash passwords in production
+          id: Date.now(), // Temporary ID - backend should generate this
+        };
+
+        const response = await axios.post("http://localhost:3000/profile", newUser);
+console.log(response.data);
+        // Log the user in
+        login(newUser);
+        
+        if (values.agreeTerms) {
+          localStorage.setItem("user", JSON.stringify(newUser));
+        }
+
+        navigate(`/profile/${newUser.id}`);
+      } catch (err) {
+        console.error("Signup error:", err);
+        setError(err.response?.data?.message || err.message || "Signup failed");
+      } finally {
+        setLoading(false);
       }
+    },
+  });
 
-        navigate(`/profile/${response.data[0].id}`);
-    } catch (err) {
-      console.error("Error during signup:", err);
-      setError("Something went wrong. Please try again.");
-    }
-  };
   return (
     <Container
       component="main"
       maxWidth="xs"
       sx={{
-        backgroundImage: `url('/space.jpg')`,
+        backgroundImage: "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/space.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         minHeight: "100vh",
         py: 6,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
       }}
     >
       <Typography variant="h5" align="center" sx={{ color: "white", mb: 2 }}>
         <RocketLaunchIcon /> ZeroGravityZone <RocketLaunchIcon />
       </Typography>
 
-      <Paper elevation={3} sx={{ mt: 4, p: 4 }}>
+      <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <Typography component="h1" variant="h6" align="center" sx={{ mt: 1 }}>
+          <Typography component="h1" variant="h6" align="center" sx={{ mb: 2 }}>
             Join ZeroGravityZone — Space awaits!
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
+          
+          <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
             <TextField
               margin="normal"
-              required
               fullWidth
               id="name"
-              label="Full Name"
               name="name"
+              label="Full Name"
               autoComplete="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
+              sx={{ mb: 2 }}
             />
+            
             <TextField
               margin="normal"
-              required
               fullWidth
               id="email"
-              label="Email Address"
               name="email"
+              label="Email Address"
+              type="email"
               autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              sx={{ mb: 2 }}
             />
+            
             <TextField
               margin="normal"
-              required
               fullWidth
               name="password"
               label="Password"
               type="password"
               id="password"
               autoComplete="new-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+              sx={{ mb: 2 }}
             />
+            
             <TextField
               margin="normal"
-              required
               fullWidth
               name="confirmPassword"
               label="Confirm Password"
               type="password"
-              id="confirm-password"
+              id="confirmPassword"
               autoComplete="new-password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+              helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+              sx={{ mb: 2 }}
             />
+            
             <FormControlLabel
               control={
                 <Checkbox
-                  name="remember"
+                  name="agreeTerms"
                   color="primary"
-                  checked={remember}
-                  onChange={(e) => setRemember(e.target.checked)}
+                  checked={formik.values.agreeTerms}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 />
               }
               label="I agree to the terms and conditions"
+              sx={{ mb: 2 }}
             />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              SIGN UP
+            {formik.touched.agreeTerms && formik.errors.agreeTerms && (
+              <Typography color="error" variant="body2" sx={{ mb: 2 }}>
+                {formik.errors.agreeTerms}
+              </Typography>
+            )}
+            
+            <Button 
+              type="submit" 
+              fullWidth 
+              variant="contained" 
+              sx={{ mt: 2, mb: 2, py: 1.5 }}
+              disabled={loading || !formik.isValid}
+            >
+              {loading ? <CircularProgress size={24} /> : "SIGN UP"}
             </Button>
 
             {error && (
-              <Typography color="error" align="center">
+              <Alert severity="error" sx={{ mb: 2 }}>
                 {error}
-              </Typography>
+              </Alert>
             )}
 
-            <Link href="/login" variant="body2">
-              Already have an account? Login
-            </Link>
-          </Box>
+            <Typography variant="body2" align="center">
+              Already have an account?{" "}
+              <Link href="/login" underline="hover">
+                Login
+              </Link>
+            </Typography>
+          </form>
         </Box>
       </Paper>
     </Container>
   );
 };
-  
-export default SignupPage;
 
+export default SignupPage;

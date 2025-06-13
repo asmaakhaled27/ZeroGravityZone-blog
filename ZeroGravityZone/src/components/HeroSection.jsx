@@ -1,13 +1,16 @@
 import React from "react";
-import { Box, Typography, Button, Stack } from "@mui/material";
+import { Box, Typography, Button, Stack, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import Navbar from "./NavBar";
 
 const HeroSection = () => {
   const navigate = useNavigate();
 
   return (
-    <Box
+    <Container>
+      <Navbar />
+ <Box
       sx={{
         minHeight: "100vh",
         backgroundImage: "url('/src/assets/night-sky-Milky-Way-Galaxy.webp')",
@@ -54,6 +57,8 @@ const HeroSection = () => {
         </Stack>
       </Box>
     </Box>
+    </Container>
+   
   );
 };
 

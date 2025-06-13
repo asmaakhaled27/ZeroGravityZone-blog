@@ -4,29 +4,44 @@ import {
   Box,
   Button,
   TextField,
-  Typography,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from '@mui/material';
-import ProfilePage from './ProfilePage';
+import { useAuth } from '../context/AuthContext';
 
-const PostFormDialog = ({ open, handleClose }) => {
+const PostFormDialog = ({ open, handleClose, setPosts }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');
-  const [author, setAuthor] = useState('');
+  const { user } = useAuth();
+// const { posts, setPosts } = setPosts();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+   try {
+  const response = await axios.post('http://localhost:3000/posts', newPost);
+  console.log('Post added:', response.data);
+   setPosts(prevPosts => [...prevPosts, newPost]);// Add new post to beginning
+  handleClose();
+} catch (error) {
+  console.error('Error adding post:', error);
+}
+    if (!user) {
+      console.error('No user logged in!');
+      alert('Please log in to create a post');
+      return;
+    }
 
     const newPost = {
       title,
       content,
       image,
-      author,
-      userId: 1, // You can dynamically set this based on the logged-in user
+      author: user.name,       // Use profile name
+      authorEmail: user.email, // Store email for reference
+      userId: user.id,        // Use profile id
       createdAt: new Date().toISOString(),
       isDeleted: false,
       comments: [],
@@ -35,69 +50,65 @@ const PostFormDialog = ({ open, handleClose }) => {
     try {
       const response = await axios.post('http://localhost:3000/posts', newPost);
       console.log('Post added:', response.data);
-      handleClose(); // Close the dialog after adding the post
-
-      // Reset form fields
+      handleClose();
+      
+      // Reset form
       setTitle('');
       setContent('');
       setImage('');
-      setAuthor('');
     } catch (error) {
       console.error('Error adding post:', error);
+      alert(`Error creating post: ${error.response?.data?.message || error.message}`);
     }
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Add New Post</DialogTitle>
+    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+      <DialogTitle>Create New Post</DialogTitle>
       <DialogContent>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
             fullWidth
-            id="title"
             label="Title"
-            name="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            sx={{ mb: 2 }}
           />
+          
           <TextField
             margin="normal"
             required
             fullWidth
-            id="content"
             label="Content"
-            name="content"
             multiline
-            rows={4}
+            rows={6}
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            sx={{ mb: 2 }}
           />
+          
           <TextField
             margin="normal"
-            required
             fullWidth
-            id="image"
-            label="Image URL"
-            name="image"
+            label="Image URL (Optional)"
             value={image}
             onChange={(e) => setImage(e.target.value)}
+            sx={{ mb: 2 }}
           />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="author"
-            label="Author"
-            name="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
-              Add Post
+          
+          <DialogActions sx={{ px: 0 }}>
+            <Button onClick={handleClose} color="secondary">
+              Cancel
+            </Button>
+            <Button 
+              type="submit" 
+              variant="contained" 
+              color="primary"
+              size="large"
+            >
+              Publish Post
             </Button>
           </DialogActions>
         </Box>
