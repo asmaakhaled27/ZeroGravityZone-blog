@@ -11,14 +11,19 @@ import {
   Paper,
 } from "@mui/material";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
+  const [name, setName] = useState(""); // 🔹 New state for name
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
@@ -26,16 +31,31 @@ const SignupPage = () => {
       return;
     }
 
-    // Add your signup logic here
-    console.log({ email, password, remember });
-  };
+    try {
+      const response = await axios.post("http://localhost:3000/profile", {
+        name,
+        email,
+        password,
+      });
 
+      console.log("User registered:", response.data);
+
+      if (remember) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+
+      navigate("/profile");
+    } catch (err) {
+      console.error("Error during signup:", err);
+      setError("Something went wrong. Please try again.");
+    }
+  };
   return (
     <Container
       component="main"
       maxWidth="xs"
       sx={{
-        backgroundImage: `url('/space.jpg')`, // Replace with your image path
+        backgroundImage: `url('/space.jpg')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         minHeight: "100vh",
@@ -47,17 +67,22 @@ const SignupPage = () => {
       </Typography>
 
       <Paper elevation={3} sx={{ mt: 4, p: 4 }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <Typography component="h1" variant="h6" align="center" sx={{ mt: 1 }}>
             Join ZeroGravityZone — Space awaits!
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Full Name"
+              name="name"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
             <TextField
               margin="normal"
               required
@@ -104,16 +129,17 @@ const SignupPage = () => {
               }
               label="I agree to the terms and conditions"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               SIGN UP
             </Button>
 
-            <Link href="#" variant="body2">
+            {error && (
+              <Typography color="error" align="center">
+                {error}
+              </Typography>
+            )}
+
+            <Link href="/login" variant="body2">
               Already have an account? Login
             </Link>
           </Box>
@@ -124,3 +150,4 @@ const SignupPage = () => {
 };
 
 export default SignupPage;
+

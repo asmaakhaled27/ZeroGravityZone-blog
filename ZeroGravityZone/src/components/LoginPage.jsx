@@ -11,41 +11,54 @@ import {
   Paper,
 } from "@mui/material";
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Add your login logic here
-    console.log({ email, password, remember });
+
+    try {
+      const response = await axios.get('http://localhost:3000/profile', {
+        params: { email, password }
+      });
+
+      if (response.data.length > 0) {
+        console.log('Login successful');
+    
+        if (remember) {
+          localStorage.setItem('user', JSON.stringify(response.data[0]));
+        }
+      navigate(`/profile/${response.data[0].id}`);
+
+      } else {
+        setError('Invalid email or password');
+      }
+    } catch (err) {
+      console.error('Error during login:', err);
+      setError('Something went wrong. Please try again.');
+    }
   };
 
   return (
     <Container component="main" maxWidth="xs">
-      <Typography variant="h5" component="h5" align="center" sx={{ mt: 4 }}>
-        <RocketLaunchIcon/> ZeroGravityZone  <RocketLaunchIcon/>
+      <Typography variant="h5" align="center" sx={{ mt: 4 }}>
+        <RocketLaunchIcon /> ZeroGravityZone <RocketLaunchIcon />
       </Typography>
 
       <Paper elevation={3} sx={{ mt: 8, p: 4 }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h6" variant="h6" align="center" sx={{ mt: 2 }}>
-            welcome back to ZeroGravityZone , space waiting for you
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Typography variant="h6" align="center" sx={{ mt: 2 }}>
+            Welcome back to ZeroGravityZone, space waiting for you
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -89,7 +102,13 @@ const LoginPage = () => {
               LOGIN
             </Button>
 
-            <Link href="#" variant="body2">
+            {error && (
+              <Typography color="error" align="center" sx={{ mb: 1 }}>
+                {error}
+              </Typography>
+            )}
+
+            <Link href="#" variant="body2" display="block" align="center">
               Forgot password?
             </Link>
           </Box>
