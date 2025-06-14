@@ -1,11 +1,11 @@
 import React from "react";
 import { Box, Typography, Container } from "@mui/material";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from "../assets/night-sky-Milky-Way-Galaxy.webp"; // Import the image
-import OrbBackground from "./OrbBackground";
-
-
+// import OrbBackground from "../Animation/OrbBackground";
+import CircularText from '../Animation/CircularText';
+  
 
 function About() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function About() {
       sx={{
         width: "98vw",
         height: "97vh",
-        backgroundImage: `url(${backgroundImage})`, // Use the imported image
+        backgroundImage: `url(${backgroundImage})`, 
         backgroundSize: "cover",
         backgroundPosition: "center",
         position: "relative",
@@ -27,11 +27,17 @@ function About() {
       maxWidth={false}
     >
       <ArrowBackIcon
-        sx={{ color: "white", fontSize: 100, cursor: "pointer", position: "absolute", top: 20, left: 20 }}
+        sx={{
+          color: "white",
+          fontSize: 100,
+          cursor: "pointer",
+          position: "absolute",
+          top: 20,
+          left: 20,
+        }}
         onClick={() => navigate(-1)}
       />
 
-  
       {/* Content */}
       <Box
         sx={{
@@ -41,18 +47,14 @@ function About() {
           p: 4,
         }}
       >
-       
-        <OrbBackground
-    hoverIntensity={0.5}
-    rotateOnHover={true}
-    hue={0}
-    forceHoverState={false}
-    title="ZeroGravityZone"
-  />
- 
-        <Typography variant="h2" gutterBottom>
-          About <span style={{ color: "#90caf9" }}>ZeroGravityZone</span>
-        </Typography>
+        
+
+        <CircularText
+  text="Zero*Gravity*Zone"
+  onHover="speedUp"
+  spinDuration={20}
+  className="custom-class"
+/>
         <Typography variant="body1" fontSize={20} lineHeight={1.8}>
           ZeroGravityZone is a vibrant online community built for space
           enthusiasts, stargazers, and astronomy lovers. Think of it as the
@@ -64,6 +66,7 @@ function About() {
           ZeroGravityZone is your go-to platform to explore, share, and
           celebrate the wonders of the universe together.
         </Typography>
+        
       </Box>
     </Container>
   );

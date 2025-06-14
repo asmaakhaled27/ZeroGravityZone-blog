@@ -107,11 +107,16 @@ function ProfilePage() {
       {/* Navbar */}
       <AppBar position="static">
         <Toolbar>
+            <Button > <Avatar sx={{ width: 50, height: 50, mb: 2, display: "flex", alignItems: "center" }}>
+                {user.name?.[0]?.toUpperCase()}
+               
+              </Avatar></Button>
+           
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             ZeroGravityZone
           </Typography>
-          <Button color="inherit" component={RouterLink} to="/blog">Blog</Button>
-          <Button color="inherit" component={RouterLink} to={`/user-posts/${id}`}>My Posts</Button>
+          <Button color="inherit" component={RouterLink} to="/HomeById">Blog</Button>
+          <Button color="inherit" component={RouterLink} to={`/about`}>about</Button>
           <Button color="inherit" onClick={() => setOpenDialog(true)}>Change Password</Button>
           <Button color="inherit" onClick={handleLogout}>Logout</Button>
         </Toolbar>
