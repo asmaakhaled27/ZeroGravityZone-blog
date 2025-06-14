@@ -3,6 +3,7 @@ import { Box, Typography, Button, Stack, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import Navbar from "./NavBar";
+import OrbBackground from "./OrbBackground";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -25,6 +26,13 @@ const HeroSection = () => {
       }}
     >
       <Box>
+        <OrbBackground
+    hoverIntensity={0.5}
+    rotateOnHover={true}
+    hue={0}
+    forceHoverState={false}
+    title="ZeroGravityZone"
+  />
         <Typography variant="h2" gutterBottom sx={{ fontWeight: "bold" }}>
           Welcome to ZeroGravityZone
         </Typography>
@@ -45,7 +53,7 @@ const HeroSection = () => {
             startIcon={<RocketLaunchIcon />}
           >
             Join Now
-          </Button>
+          </Button> 
           <Button
             variant="outlined"
             size="large"
