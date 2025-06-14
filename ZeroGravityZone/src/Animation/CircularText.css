@@ -1,0 +1,52 @@
+.circular-text {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  font-weight: 900;
+  text-align: center;
+  cursor: pointer;
+  transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50%;
+  z-index: 2;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Galaxy Gradient */
+  background: radial-gradient(circle at center, #7f00ff, #e100ff, #000428);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 24px;
+}
+@keyframes pulse-glow {
+ 25% {
+    text-shadow: 0 0 5px #fff, 0 0 10px #7f00ff, 0 0 15px #e100ff;
+  }
+  50% {
+    text-shadow: 0 0 10px #fff, 0 0 20px #7f00ff, 0 0 30px #e100ff;
+  }
+  100% {
+    text-shadow: 0 0 5px #fff, 0 0 10px #7f00ff, 0 0 15px #e100ff;
+  }
+}
+
+.circular-text {
+  animation: pulse-glow 2s infinite;
+}
+
+
+
+.circular-text span {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-size: 24px;
+  transition: all 0.5s cubic-bezier(0, 0, 0, 1);
+}

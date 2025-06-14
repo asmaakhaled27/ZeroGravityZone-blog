@@ -21,14 +21,23 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const navLinks = [
-    { label: "Blog", path: "/" },
+    { label: "Blog", path: "/blog" },
     { label: "About", path: "/about" },
   ];
 
   return (
     <AppBar position="static" color="default" elevation={2}>
       <Toolbar>
-        <RocketLaunchIcon sx={{ mr: 1, color: "primary.main" }} />
+       <RocketLaunchIcon 
+  sx={{ 
+    mr: 1, 
+    color: 'primary.main', 
+    cursor: 'pointer', 
+    '&:hover': { color: 'secondary.main' } 
+  }} 
+  onClick={() => navigate('/HeroSection')} 
+/>
+
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           ZeroGravityZone
         </Typography>

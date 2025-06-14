@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import OrbBackground from "./OrbBackground.jsx";
+import OrbBackground from "../Animation/OrbBackground.jsx";
 
 // Validation Schema
 const LoginSchema = Yup.object().shape({
@@ -63,7 +63,7 @@ const LoginPage = () => {
         if (values.remember) {
           localStorage.setItem("user", JSON.stringify(userData));
         }
-        
+
         navigate(`/profile/${userData.id}`);
       } catch (err) {
         console.error("Login error:", err);
@@ -89,7 +89,7 @@ const LoginPage = () => {
         justifyContent: "center",
       }}
     >
-      <OrbBackground 
+      <OrbBackground
         hoverIntensity={0.5}
         rotateOnHover={true}
         hue={0}
@@ -101,7 +101,13 @@ const LoginPage = () => {
       </Typography>
 
       <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <Typography variant="h6" align="center" sx={{ mb: 3 }}>
             Welcome back to ZeroGravityZone
           </Typography>
@@ -121,7 +127,7 @@ const LoginPage = () => {
               helperText={formik.touched.email && formik.errors.email}
               sx={{ mb: 2 }}
             />
-            
+
             <TextField
               margin="normal"
               fullWidth
@@ -137,7 +143,7 @@ const LoginPage = () => {
               helperText={formik.touched.password && formik.errors.password}
               sx={{ mb: 2 }}
             />
-            
+
             <FormControlLabel
               control={
                 <Checkbox
@@ -150,7 +156,7 @@ const LoginPage = () => {
               label="Remember me"
               sx={{ mb: 2 }}
             />
-            
+
             <Button
               type="submit"
               fullWidth

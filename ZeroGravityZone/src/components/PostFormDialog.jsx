@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import {
   Box,
@@ -10,25 +10,18 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
+import { usePosts } from "../context/PostContext.jsx";
 
-const PostFormDialog = ({ open, handleClose, setPosts }) => {
+const PostFormDialog = ({ open, handleClose }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');
   const { user } = useAuth();
-// const { posts, setPosts } = setPosts();
+  const { posts,setPosts } = usePosts(); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-   try {
-  const response = await axios.post('http://localhost:3000/posts', newPost);
-  console.log('Post added:', response.data);
-   setPosts(prevPosts => [...prevPosts, newPost]);// Add new post to beginning
-  handleClose();
-} catch (error) {
-  console.error('Error adding post:', error);
-}
     if (!user) {
       console.error('No user logged in!');
       alert('Please log in to create a post');
@@ -39,9 +32,9 @@ const PostFormDialog = ({ open, handleClose, setPosts }) => {
       title,
       content,
       image,
-      author: user.name,       // Use profile name
-      authorEmail: user.email, // Store email for reference
-      userId: user.id,        // Use profile id
+      author: user.name,
+      authorEmail: user.email,
+      userId: user.id,
       createdAt: new Date().toISOString(),
       isDeleted: false,
       comments: [],
@@ -50,12 +43,15 @@ const PostFormDialog = ({ open, handleClose, setPosts }) => {
     try {
       const response = await axios.post('http://localhost:3000/posts', newPost);
       console.log('Post added:', response.data);
-      handleClose();
       
-      // Reset form
+      // Update posts in context
+      setPosts(prevPosts => [response.data, ...prevPosts]);
+      
+      // Reset and close
       setTitle('');
       setContent('');
       setImage('');
+      handleClose();
     } catch (error) {
       console.error('Error adding post:', error);
       alert(`Error creating post: ${error.response?.data?.message || error.message}`);
@@ -107,6 +103,7 @@ const PostFormDialog = ({ open, handleClose, setPosts }) => {
               variant="contained" 
               color="primary"
               size="large"
+              onClick={handleSubmit}
             >
               Publish Post
             </Button>

@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import OrbBackground from "./OrbBackground.jsx";
+import OrbBackground from "../Animation/OrbBackground.jsx";
 
 const SignupPage = () => {
   const [loading, setLoading] = React.useState(false);
@@ -113,7 +113,7 @@ const SignupPage = () => {
         justifyContent: "center",
       }}
     >
-      <OrbBackground 
+      <OrbBackground
         hoverIntensity={0.7}
         rotateOnHover={true}
         hue={0}
