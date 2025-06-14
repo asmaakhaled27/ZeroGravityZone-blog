@@ -3,6 +3,9 @@ import { Box, Typography, Container } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from "react-router-dom";
 import backgroundImage from "../assets/night-sky-Milky-Way-Galaxy.webp"; // Import the image
+import OrbBackground from "./OrbBackground";
+
+
 
 function About() {
   const navigate = useNavigate();
@@ -28,6 +31,7 @@ function About() {
         onClick={() => navigate(-1)}
       />
 
+  
       {/* Content */}
       <Box
         sx={{
@@ -37,6 +41,15 @@ function About() {
           p: 4,
         }}
       >
+       
+        <OrbBackground
+    hoverIntensity={0.5}
+    rotateOnHover={true}
+    hue={0}
+    forceHoverState={false}
+    title="ZeroGravityZone"
+  />
+ 
         <Typography variant="h2" gutterBottom>
           About <span style={{ color: "#90caf9" }}>ZeroGravityZone</span>
         </Typography>

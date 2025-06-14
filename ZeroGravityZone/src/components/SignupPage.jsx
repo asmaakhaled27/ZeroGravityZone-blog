@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import OrbBackground from "./OrbBackground.jsx";
 
 const SignupPage = () => {
   const [loading, setLoading] = React.useState(false);
@@ -39,8 +40,10 @@ const SignupPage = () => {
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Confirm Password is required"),
-    agreeTerms: Yup.boolean()
-      .oneOf([true], "You must accept the terms and conditions")
+    agreeTerms: Yup.boolean().oneOf(
+      [true],
+      "You must accept the terms and conditions"
+    ),
   });
 
   const formik = useFormik({
@@ -74,11 +77,14 @@ const SignupPage = () => {
           id: Date.now(), // Temporary ID - backend should generate this
         };
 
-        const response = await axios.post("http://localhost:3000/profile", newUser);
-console.log(response.data);
+        const response = await axios.post(
+          "http://localhost:3000/profile",
+          newUser
+        );
+        console.log(response.data);
         // Log the user in
         login(newUser);
-        
+
         if (values.agreeTerms) {
           localStorage.setItem("user", JSON.stringify(newUser));
         }
@@ -98,26 +104,38 @@ console.log(response.data);
       component="main"
       maxWidth="xs"
       sx={{
-        backgroundImage: "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/space.jpg')",
+        backgroundImage: `url('./src/assets/placeholder.webp')`,
         backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "100vh",
+        minHeight: "95vh",
         py: 6,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
       }}
     >
+      <OrbBackground 
+        hoverIntensity={0.7}
+        rotateOnHover={true}
+        hue={0}
+        forceHoverState={false}
+        title="ZeroGravityZone"
+      />
       <Typography variant="h5" align="center" sx={{ color: "white", mb: 2 }}>
         <RocketLaunchIcon /> ZeroGravityZone <RocketLaunchIcon />
       </Typography>
 
       <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <Typography component="h1" variant="h6" align="center" sx={{ mb: 2 }}>
             Join ZeroGravityZone — Space awaits!
           </Typography>
-          
+
           <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
             <TextField
               margin="normal"
@@ -133,7 +151,7 @@ console.log(response.data);
               helperText={formik.touched.name && formik.errors.name}
               sx={{ mb: 2 }}
             />
-            
+
             <TextField
               margin="normal"
               fullWidth
@@ -149,7 +167,7 @@ console.log(response.data);
               helperText={formik.touched.email && formik.errors.email}
               sx={{ mb: 2 }}
             />
-            
+
             <TextField
               margin="normal"
               fullWidth
@@ -165,7 +183,7 @@ console.log(response.data);
               helperText={formik.touched.password && formik.errors.password}
               sx={{ mb: 2 }}
             />
-            
+
             <TextField
               margin="normal"
               fullWidth
@@ -177,11 +195,16 @@ console.log(response.data);
               value={formik.values.confirmPassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-              helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+              error={
+                formik.touched.confirmPassword &&
+                Boolean(formik.errors.confirmPassword)
+              }
+              helperText={
+                formik.touched.confirmPassword && formik.errors.confirmPassword
+              }
               sx={{ mb: 2 }}
             />
-            
+
             <FormControlLabel
               control={
                 <Checkbox
@@ -200,11 +223,11 @@ console.log(response.data);
                 {formik.errors.agreeTerms}
               </Typography>
             )}
-            
-            <Button 
-              type="submit" 
-              fullWidth 
-              variant="contained" 
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
               sx={{ mt: 2, mb: 2, py: 1.5 }}
               disabled={loading || !formik.isValid}
             >
