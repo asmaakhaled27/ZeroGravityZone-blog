@@ -3,9 +3,9 @@ import { Box, Typography, Container } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import backgroundImage from "../assets/night-sky-Milky-Way-Galaxy.webp"; // Import the image
-// import OrbBackground from "../Animation/OrbBackground";
-import CircularText from '../Animation/CircularText';
-  
+import OrbBackground from "../Animation/OrbBackground";
+// import CircularText from '../Animation/CircularText';
+
 
 function About() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function About() {
       sx={{
         width: "98vw",
         height: "97vh",
-        backgroundImage: `url(${backgroundImage})`, 
+        backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         position: "relative",
@@ -47,14 +47,9 @@ function About() {
           p: 4,
         }}
       >
-        
 
-        <CircularText
-  text="Zero*Gravity*Zone"
-  onHover="speedUp"
-  spinDuration={20}
-  className="custom-class"
-/>
+
+ <OrbBackground text="*Z*G*Z" onHover="speedUp" spinDuration={20} className="custom-class" />
         <Typography variant="body1" fontSize={20} lineHeight={1.8}>
           ZeroGravityZone is a vibrant online community built for space
           enthusiasts, stargazers, and astronomy lovers. Think of it as the
@@ -66,7 +61,7 @@ function About() {
           ZeroGravityZone is your go-to platform to explore, share, and
           celebrate the wonders of the universe together.
         </Typography>
-        
+
       </Box>
     </Container>
   );

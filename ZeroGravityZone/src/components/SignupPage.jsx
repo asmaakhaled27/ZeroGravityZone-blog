@@ -73,8 +73,8 @@ const SignupPage = () => {
         const newUser = {
           name: values.name,
           email: values.email,
-          password: values.password, // Note: Hash passwords in production
-          id: Date.now(), // Temporary ID - backend should generate this
+          password: values.password,
+          id: Date.now(), 
         };
 
         const response = await axios.post(

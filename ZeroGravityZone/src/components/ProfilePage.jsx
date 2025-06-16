@@ -109,9 +109,9 @@ function ProfilePage() {
         <Toolbar>
             <Button > <Avatar sx={{ width: 50, height: 50, mb: 2, display: "flex", alignItems: "center" }}>
                 {user.name?.[0]?.toUpperCase()}
-               
+
               </Avatar></Button>
-           
+
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             ZeroGravityZone
           </Typography>
@@ -149,7 +149,7 @@ function ProfilePage() {
           {posts.length > 0 ? (
   <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 2 }}>
     {posts.map((post) => (
-      <Card key={post.id} elevation={3} sx={{ width: 300, m: 2 }}>
+      <Card key={post.id} elevation={3} sx={{ width:900, m: 2 }}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {post.title}
@@ -164,7 +164,7 @@ function ProfilePage() {
               <img
                 src={post.image}
                 alt={post.title}
-                style={{ width: '100%', maxWidth: '300px', marginTop: '1rem' }}
+                style={{ width: '100%', maxWidth: '800px', marginTop: '1rem' }}
               />
             )}
           </Typography>
@@ -176,7 +176,7 @@ function ProfilePage() {
   <Typography align="center" mt={2}>No posts found.</Typography>
 )}
 
-  
+
       {/* Password Dialog */}
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>Change Password</DialogTitle>
