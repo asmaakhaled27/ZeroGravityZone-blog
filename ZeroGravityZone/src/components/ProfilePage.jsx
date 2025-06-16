@@ -143,7 +143,7 @@ function ProfilePage() {
           <Typography variant="h6" align="center" sx={{ mt: 2 }}>
             Your Posts
           </Typography>
-          <Typography variant="body1" align="center" sx={{ mt: 1 }}>
+          <Typography variant="body1" align="center" color="text.secondary" sx={{ mt: 1 }}>
             Here are all the posts you have created
           </Typography>
           {posts.length > 0 ? (
@@ -173,7 +173,7 @@ function ProfilePage() {
     ))}
   </Box>
 ) : (
-  <Typography align="center" mt={2}>No posts found.</Typography>
+  <Typography align="center" mt={2} sx={{color:'primary'}}>You have not created any posts yet!</Typography>
 )}
 
 
