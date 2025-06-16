@@ -66,7 +66,7 @@ function HomeById() {
         <Toolbar>
           {user && (
             <Button onClick={() => navigate(`/profile/${user.id}`)}>
-              <Avatar 
+              <Avatar
                 sx={{ width: 40, height: 40, mr: 1 }}
                 alt={user.name}
                 src={user.avatar}
@@ -78,7 +78,7 @@ function HomeById() {
               </Typography>
             </Button>
           )}
-          
+
           <Typography variant="h6" sx={{ flexGrow: 1, ml: 2 }}>
             ZeroGravityZone
           </Typography>
@@ -99,7 +99,7 @@ function HomeById() {
 
       <Posts posts={posts} />
 
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 5 , position: "fixed", bottom: 0, left: 0, right: 0}}>
         <AddBoxIcon
           color="primary"
           sx={{ fontSize: 100, cursor: "pointer" }}
