@@ -94,6 +94,4 @@ User authentication is handled through `json-server-auth` using email and passwo
 **Asmaa Khaled**
 Biotech-turned-Developer passionate about space, UI design, and building web apps.
 
----
 
-Let me know if you'd like this in markdown file format or want to include screenshots, deployment instructions (e.g., on Vercel or Netlify), or a live demo link.
